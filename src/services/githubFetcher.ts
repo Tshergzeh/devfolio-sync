@@ -1,18 +1,6 @@
 import { Project } from "@/models/project.model";
 import { requestWithAuth } from "@/config/octokit";
-
-interface GithubRepo {
-  id: number;
-  name: string;
-  full_name: string;
-  description: string | null;
-  html_url: string;
-  topics?: [string];
-  stargazers_count: number;
-  forks_count: number;
-  pushed_at: string;
-  homepage?: string | null;
-}
+import { GithubRepo } from "@/types";
 
 export async function fetchPortfolioRepos(username: string) {
   const allRepos: GithubRepo[] = [];

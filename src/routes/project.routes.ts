@@ -1,9 +1,10 @@
 import express from "express";
 
-import { getAllProjects } from "@/controllers/project.controller";
+import { getAllProjects, getProjectById } from "@/controllers/project.controller";
 
 const router = express.Router();
 
 router.get("/", getAllProjects);
+router.get("/:id", getProjectById);
 
 export default router;

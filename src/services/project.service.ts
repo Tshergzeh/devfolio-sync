@@ -1,4 +1,5 @@
 import { Project } from "@/models/project.model";
+import { NotFoundError } from "@/errors/httpError";
 
 export async function getAllProjectsService(skip: number, limit: number) {
   const [projects, total] = await Promise.all([
@@ -7,4 +8,12 @@ export async function getAllProjectsService(skip: number, limit: number) {
   ]);
 
   return { projects, total };
+}
+
+export async function getProjectByIdService(id: string) {
+  const project = await Project.findById(id);
+
+  if (!project) throw new NotFoundError("Project not found");
+
+  return project;
 }
