@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { getAllProjectsService, getProjectByIdService } from "@/services/project.service";
-import { HttpError } from "@/errors/httpError";
 
 /**
  * @desc Get all projects (with optional pagination)
@@ -35,19 +34,7 @@ export const getAllProjects = async (req: Request, res: Response) => {
  * @route GET /api/projects/:id
  */
 export const getProjectById = async (req: Request, res: Response) => {
-  try {
-    const { id } = req.params;
-    const project = await getProjectByIdService(id);
-    res.status(200).json(project);
-  } catch (error) {
-    console.error(error);
-
-    if ((error as HttpError).httpStatus) {
-      return res
-        .status((error as HttpError).httpStatus)
-        .json({ message: (error as HttpError).message });
-    }
-
-    return res.status(500).json({ message: "Internal server error" });
-  }
+  const { id } = req.params;
+  const project = await getProjectByIdService(id);
+  res.status(200).json(project);
 };
