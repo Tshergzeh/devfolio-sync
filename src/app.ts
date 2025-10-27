@@ -1,11 +1,16 @@
 import express from "express";
 import "dotenv/config";
+
 import { connectDB } from "@/config/db";
 import { fetchPortfolioRepos } from "@/services/githubFetcher";
+import projectRoutes from "@/routes/project.routes";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 const USERNAME = process.env.GITHUB_USERNAME || "Tshergzeh";
+
+app.use(express.json());
+app.use("/api/projects", projectRoutes);
 
 (async () => {
   await connectDB();
