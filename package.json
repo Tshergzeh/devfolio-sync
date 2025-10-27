@@ -24,11 +24,11 @@
     "test": "echo \"No tests yet\" && exit 0"
   },
   "dependencies": {
-    "@octokit/request": "^10.0.5",
     "axios": "^1.12.2",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
-    "mongoose": "^8.19.2"
+    "mongoose": "^8.19.2",
+    "octokit": "^5.0.4"
   },
   "devDependencies": {
     "@types/express": "^5.0.4",

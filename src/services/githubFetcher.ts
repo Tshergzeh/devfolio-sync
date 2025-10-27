@@ -1,8 +1,5 @@
-import axios from "axios";
 import { Project } from "@/models/project.model";
 import { requestWithAuth } from "@/config/octokit";
-
-const GITHUB_API = "https://api.github.com";
 
 interface GithubRepo {
   id: number;
@@ -18,10 +15,24 @@ interface GithubRepo {
 }
 
 export async function fetchPortfolioRepos(username: string) {
-  const url = `${GITHUB_API}/users/${username}/repos?per_page=100`;
-  const { data } = await requestWithAuth(url);
+  const allRepos: GithubRepo[] = [];
 
-  const portfolioRepos = data.filter((repo: GithubRepo) => repo.topics?.includes("portfolio"));
+  let page = 1;
+  const per_page = 100;
+
+  while (true) {
+    const { data } = await requestWithAuth(`GET /users/${username}/repos`, {
+      per_page,
+      page,
+    });
+
+    if (data.length === 0) break;
+
+    allRepos.push(...data);
+    page++;
+  }
+
+  const portfolioRepos = allRepos.filter((repo) => repo.topics?.includes("portfolio"));
 
   for (const repo of portfolioRepos) {
     const repo_languages = await fetchRepoLanguages(username, repo.name);
@@ -49,14 +60,6 @@ export async function fetchPortfolioRepos(username: string) {
 }
 
 async function fetchRepoLanguages(username: string, repo: string) {
-  const url = `${GITHUB_API}/repos/${username}/${repo}/languages`;
-  const headers = {
-    Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
-    Accept: "application/vnd.github+json",
-    "X-Github-Api-Version": "2022-11-28",
-  };
-
-  const { data } = await axios.get(url, { headers });
-  const languages = Object.keys(data);
-  return languages;
+  const { data } = await requestWithAuth(`GET /repos/${username}/${repo}/languages`);
+  return Object.keys(data);
 }
