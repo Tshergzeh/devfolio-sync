@@ -18,7 +18,13 @@
 
     /* For Node.js projects */
     "moduleResolution": "bundler",
-    "types": ["node", "jest"]
+    "types": ["node", "jest"],
+
+    /* Path aliases */
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["*"]
+    }
   },
   "include": ["src/**/*", "tests/**/*"],
   "exclude": ["node_modules", "dist"]
