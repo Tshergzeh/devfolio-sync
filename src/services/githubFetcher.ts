@@ -1,5 +1,6 @@
 import axios from "axios";
 import { Project } from "@/models/project.model";
+import { requestWithAuth } from "@/config/octokit";
 
 const GITHUB_API = "https://api.github.com";
 
@@ -18,15 +19,9 @@ interface GithubRepo {
 
 export async function fetchPortfolioRepos(username: string) {
   const url = `${GITHUB_API}/users/${username}/repos?per_page=100`;
-  const headers = {
-    Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
-    Accept: "application/vnd.github+json",
-    "X-Github-Api-Version": "2022-11-28",
-  };
+  const { data } = await requestWithAuth(url);
 
-  const { data } = await axios.get<GithubRepo[]>(url, { headers });
-
-  const portfolioRepos = data.filter((repo) => repo.topics?.includes("portfolio"));
+  const portfolioRepos = data.filter((repo: GithubRepo) => repo.topics?.includes("portfolio"));
 
   for (const repo of portfolioRepos) {
     const repo_languages = await fetchRepoLanguages(username, repo.name);
