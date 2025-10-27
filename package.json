@@ -1,0 +1,23 @@
+{
+  "name": "devfolio-sync",
+  "version": "1.0.0",
+  "description": "Devfolio Sync is an AI-powered portfolio curator that automatically fetches, analyzes, and formats your latest GitHub projects. It generates summaries, categorizes repos, and syncs updates to your portfolio or README—keeping your developer profile effortlessly up to date.",
+  "homepage": "https://github.com/Tshergzeh/devfolio-sync#readme",
+  "bugs": {
+    "url": "https://github.com/Tshergzeh/devfolio-sync/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tshergzeh/devfolio-sync.git"
+  },
+  "license": "MIT",
+  "author": "Oluwasegun Ige",
+  "type": "commonjs",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
