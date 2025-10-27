@@ -7,26 +7,21 @@ import { getAllProjectsService, getProjectByIdService } from "@/services/project
  */
 
 export const getAllProjects = async (req: Request, res: Response) => {
-  try {
-    const page = parseInt(req.query.page as string) || 1;
-    const limit = parseInt(req.query.limit as string) || 10;
-    const skip = (page - 1) * limit;
+  const page = parseInt(req.query.page as string) || 1;
+  const limit = parseInt(req.query.limit as string) || 10;
+  const skip = (page - 1) * limit;
 
-    const { projects, total } = await getAllProjectsService(skip, limit);
+  const { projects, total } = await getAllProjectsService(skip, limit);
 
-    res.status(200).json({
-      data: projects,
-      pagination: {
-        total,
-        page,
-        pages: Math.ceil(total / limit),
-        hasNextPage: page * limit < total,
-      },
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Error fetching projects" });
-  }
+  res.status(200).json({
+    data: projects,
+    pagination: {
+      total,
+      page,
+      pages: Math.ceil(total / limit),
+      hasNextPage: page * limit < total,
+    },
+  });
 };
 
 /**
