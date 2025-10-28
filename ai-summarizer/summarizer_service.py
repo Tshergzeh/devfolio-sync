@@ -34,7 +34,8 @@ async def summarize_repo(payload: RepoSummaryRequest):
         try:
             readme_snippet = payload.readme_text[:2000]
 
-            return client.summarization(readme_snippet, model="facebook/bart-large-cnn")
+            summary = client.summarization(readme_snippet, model="facebook/bart-large-cnn")
+            return { "data": summary.summary_text }
         
         except Exception as e:
             logging.exception("Summarization failed")
