@@ -17,3 +17,11 @@ export class NotFoundError extends Error implements HttpError {
     this.name = "NotFoundError";
   }
 }
+
+export class InternalServerError extends Error implements HttpError {
+  httpStatus = 500;
+  constructor(message = "Internal Server Error") {
+    super(message);
+    this.name = "InternalServerError";
+  }
+}

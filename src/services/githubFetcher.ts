@@ -3,6 +3,7 @@ import axios from "axios";
 import { Project } from "@/models/project.model";
 import { requestWithAuth } from "@/config/octokit";
 import { GithubRepo } from "@/types";
+import { InternalServerError } from "@/errors/httpError";
 
 export async function fetchPortfolioRepos(username: string, manualSync: boolean) {
   const allRepos: GithubRepo[] = [];
@@ -76,9 +77,14 @@ async function fetchRepoReadme(username: string, repo: string) {
     if (readmeText.length > 2000) readmeText = readmeText.substring(0, 2000);
 
     return readmeText;
-  } catch (error: any) {
-    if (error.response?.status === 404) return null;
-    console.error(`Failed to fetch README for ${username}/${repo}:`, error.message);
+  } catch (error: unknown) {
+    if (typeof error === "object" && error !== null && "response" in error) {
+      const err = error as { response?: { status?: number }; message?: string };
+      if (err.response?.status === 404) return null;
+      console.error(`Failed to fetch README for ${username}/${repo}:`, err.message);
+    } else {
+      console.error(`Unknown error fetching README for ${username}/${repo}:`, error);
+    }
     return null;
   }
 }
