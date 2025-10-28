@@ -4,7 +4,7 @@ import { Project } from "@/models/project.model";
 import { requestWithAuth } from "@/config/octokit";
 import { GithubRepo } from "@/types";
 
-export async function fetchPortfolioRepos(username: string) {
+export async function fetchPortfolioRepos(username: string, manualSync: boolean) {
   const allRepos: GithubRepo[] = [];
 
   let page = 1;
@@ -27,11 +27,7 @@ export async function fetchPortfolioRepos(username: string) {
   for (const repo of portfolioRepos) {
     const repo_languages = await fetchRepoLanguages(username, repo.name);
 
-    const readme_text = await fetchRepoReadme(username, repo.name);
-    const repo_summary = readme_text ? await summarizeReadme(readme_text) : "";
-    const curated_at = Date.now();
-
-    await Project.findOneAndUpdate(
+    const project = await Project.findOneAndUpdate(
       { repoId: repo.id },
       {
         repoId: repo.id,
@@ -45,11 +41,23 @@ export async function fetchPortfolioRepos(username: string) {
         forks: repo.forks_count,
         lastPushedAt: repo.pushed_at,
         pathToDemo: repo.homepage,
-        summary: repo_summary.data,
-        curatedAt: curated_at,
       },
       { upsert: true, new: true }
     );
+
+    if (project.lastPushedAt > (project.curatedAt || 0) || manualSync) {
+      const readme_text = await fetchRepoReadme(username, repo.name);
+      const repo_summary = readme_text ? await summarizeReadme(readme_text) : "";
+      const curated_at = Date.now();
+
+      await Project.findOneAndUpdate(
+        { repoId: repo.id },
+        {
+          summary: repo_summary.data,
+          curatedAt: curated_at,
+        }
+      );
+    }
   }
 
   console.log(`Synced ${portfolioRepos.length} portfolio repos for ${username}`);
