@@ -29,6 +29,7 @@ export async function fetchPortfolioRepos(username: string) {
 
     const readme_text = await fetchRepoReadme(username, repo.name);
     const repo_summary = readme_text ? await summarizeReadme(readme_text) : "";
+    const curated_at = Date.now();
 
     await Project.findOneAndUpdate(
       { repoId: repo.id },
@@ -45,6 +46,7 @@ export async function fetchPortfolioRepos(username: string) {
         lastPushedAt: repo.pushed_at,
         pathToDemo: repo.homepage,
         summary: repo_summary.data,
+        curatedAt: curated_at,
       },
       { upsert: true, new: true }
     );
