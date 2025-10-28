@@ -18,7 +18,7 @@ app.use(errorHandler);
 
 (async () => {
   await connectDB();
-  await fetchPortfolioRepos(USERNAME);
+  await fetchPortfolioRepos(USERNAME, false);
 })();
 
 app.get("/", (req, res) => {
