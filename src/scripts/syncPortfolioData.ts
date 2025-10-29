@@ -1,6 +1,7 @@
 import { Octokit } from "octokit";
 import { RequestError } from "@octokit/request-error";
 import fs from "fs";
+import "dotenv/config";
 
 const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
 
@@ -26,6 +27,9 @@ async function updateProjectsFile() {
       repo,
       path: projectsPath,
       ref: branch,
+      headers: {
+        "X-GitHub-Api-Version": "2022-11-28",
+      },
     });
     sha = Array.isArray(data) ? data[0].sha : data.sha;
     console.log("Existing file found. SHA:", sha);
