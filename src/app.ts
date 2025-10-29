@@ -3,22 +3,30 @@ import "dotenv/config";
 
 import { connectDB } from "@/config/db";
 import { errorHandler } from "@/middleware/errorHandler";
-import { fetchPortfolioRepos } from "@/services/githubFetcher";
+import { scheduleWeeklySync } from "./jobs/weeklySyncJob";
 import projectRoutes from "@/routes/project.routes";
+import githubRoutes from "@/routes/github.routes";
 import syncRoutes from "@/routes/sync.routes";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const USERNAME = process.env.GITHUB_USERNAME || "Tshergzeh";
 
-app.use(express.json());
+app.use(
+  express.json({
+    verify: (req, res, buf) => {
+      (req as express.Request & { rawBody?: Buffer }).rawBody = buf;
+    },
+  })
+);
+
 app.use("/api/projects", projectRoutes);
+app.use("/api/github", githubRoutes);
 app.use("/api", syncRoutes);
 app.use(errorHandler);
 
 (async () => {
   await connectDB();
-  await fetchPortfolioRepos(USERNAME, false);
+  await scheduleWeeklySync();
 })();
 
 app.get("/", (req, res) => {

@@ -1,9 +1,10 @@
 import fs from "fs";
 import path from "path";
-import axios, { all } from "axios";
+import axios from "axios";
 import { IProject, PaginatedResponse } from "@/types";
 
-const API_BASE_URL = process.env.PORTFOLIO_API_URL || "http://localhost:3000/api/projects";
+const API_BASE_URL = process.env.API_BASE_URL || "http://localhost:3000/";
+const PORTFOLIO_BASE_URL = `${API_BASE_URL}/api/projects`;
 
 async function fetchAllProjects(): Promise<IProject[]> {
   let allProjects: IProject[] = [];
@@ -13,7 +14,7 @@ async function fetchAllProjects(): Promise<IProject[]> {
   console.log("Fetching projects from API...");
 
   while (hasNextPage) {
-    const { data } = await axios.get<PaginatedResponse>(`${API_BASE_URL}?page=${page}`);
+    const { data } = await axios.get<PaginatedResponse>(`${PORTFOLIO_BASE_URL}?page=${page}`);
 
     allProjects = allProjects.concat(data.data);
 
@@ -27,7 +28,7 @@ async function fetchAllProjects(): Promise<IProject[]> {
   return allProjects;
 }
 
-async function generateProjectsJson() {
+export async function generateProjectsJson() {
   try {
     const projects = await fetchAllProjects();
 
@@ -42,5 +43,3 @@ async function generateProjectsJson() {
     console.error("Failed to generate projects.json:", error);
   }
 }
-
-generateProjectsJson();
