@@ -1,8 +1,39 @@
-import nodeCron from "node-cron";
+import { Queue, Worker } from "bullmq";
 import "dotenv/config";
 
 import { generateProjectsJson } from "@/scripts/generateProjectsJson";
 import { updateProjectsFile } from "@/scripts/syncPortfolioData";
+
+const connection = { url: process.env.REDIS_URL };
+
+export const syncQueue = new Queue("syncQueue", { connection });
+
+export async function scheduleWeeklySync() {
+  await syncQueue.add(
+    "weekly-sync",
+    {},
+    {
+      repeat: { pattern: "0 0 * * 0" },
+      removeOnComplete: true,
+      removeOnFail: false,
+    }
+  );
+}
+
+export const syncWorker = new Worker(
+  "syncQueue",
+  async () => {
+    console.log("Running weekly portfolio sync...");
+
+    await manualSync();
+
+    await generateProjectsJson();
+
+    console.log("Updating portfolio repository...");
+    await updateProjectsFile();
+  },
+  { connection, concurrency: 1 }
+);
 
 async function manualSync() {
   console.log("Triggering manual sync via /api/manual-sync...");
@@ -22,23 +53,4 @@ async function manualSync() {
   console.log("Manual sync response:", data.message);
 }
 
-async function runWeeklySync() {
-  try {
-    console.log("Running weekly portfolio sync...");
-
-    await manualSync();
-
-    await generateProjectsJson();
-
-    console.log("Updating portfolio repository...");
-    await updateProjectsFile();
-  } catch (error) {
-    console.error("Weekly sync failed:", error);
-  }
-}
-
-nodeCron.schedule("0 9 * * MON", async () => {
-  await runWeeklySync();
-});
-
-console.log("Weekly sync job scheduled (every Monday at 9 AM)");
+console.log("Weekly sync job scheduled (every Sunday at midnight)");
