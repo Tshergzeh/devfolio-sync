@@ -21,6 +21,7 @@
     "lint": "eslint \"src/**/*.{ts,tsx}\" --quiet",
     "lint:fix": "eslint \"src/**/*.{ts,tsx}\" --fix",
     "format": "prettier --write 'src/**/*.{ts,tsx,js,json,md}'",
+    "generate:projects": "tsx src/scripts/generateProjectsJson.ts",
     "test": "echo \"No tests yet\" && exit 0"
   },
   "dependencies": {
