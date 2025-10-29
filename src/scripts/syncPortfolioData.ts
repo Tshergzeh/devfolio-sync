@@ -20,7 +20,7 @@ async function updateProjectsFile() {
   const content = fs.readFileSync("./public/projects.json", "utf-8");
   const base64Content = Buffer.from(content).toString("base64");
 
-  let sha: string;
+  let sha: string | undefined;
   try {
     const { data } = await octokit.rest.repos.getContent({
       owner,
