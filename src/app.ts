@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 3000;
 app.use(
   express.json({
     verify: (req, res, buf) => {
-      (req as any).rawBody = buf;
+      (req as express.Request & { rawBody?: Buffer }).rawBody = buf;
     },
   })
 );
