@@ -28,3 +28,13 @@ export interface GithubRepo {
   pushed_at: string;
   homepage?: string | null;
 }
+
+export interface PaginatedResponse {
+  data: IProject[];
+  pagination: {
+    total: number;
+    page: number;
+    pages: number;
+    hasNextPage: boolean;
+  };
+}
