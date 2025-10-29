@@ -16,7 +16,7 @@ const repo = getEnv("GITHUB_PORTFOLIO_REPO");
 const projectsPath = getEnv("GITHUB_PORTFOLIO_PATH");
 const branch = process.env.GITHUB_PORTFOLIO_BRANCH || "main";
 
-async function updateProjectsFile() {
+export async function updateProjectsFile() {
   const content = fs.readFileSync("./public/projects.json", "utf-8");
   const base64Content = Buffer.from(content).toString("base64");
 
@@ -53,5 +53,3 @@ async function updateProjectsFile() {
 
   console.log("projects.json successfully updated in target repo!");
 }
-
-updateProjectsFile().catch(console.error);
