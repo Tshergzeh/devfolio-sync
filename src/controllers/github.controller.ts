@@ -17,5 +17,5 @@ export const webhook = async (req: Request, res: Response) => {
 
   await webhookService(event, ref);
 
-  res.status(200).send("Webhook received");
+  res.status(200).send("OK");
 };
