@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import axios, { all } from "axios";
+import axios from "axios";
 import { IProject, PaginatedResponse } from "@/types";
 
 const API_BASE_URL = process.env.API_BASE_URL || "http://localhost:3000/";

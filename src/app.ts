@@ -4,6 +4,7 @@ import "dotenv/config";
 import { connectDB } from "@/config/db";
 import { errorHandler } from "@/middleware/errorHandler";
 import { fetchPortfolioRepos } from "@/services/githubFetcher";
+import "./jobs/weeklySyncJob";
 import projectRoutes from "@/routes/project.routes";
 import githubRoutes from "@/routes/github.routes";
 import syncRoutes from "@/routes/sync.routes";
