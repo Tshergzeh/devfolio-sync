@@ -131,3 +131,14 @@ export async function publishUpdatedProjectService(id: string) {
   const commit = commitUpdatedProjectsFile(id, projectsFile.sha, updatedBase64File);
   return commit;
 }
+
+export async function updateProjectSummaryService(id: string, summary: string) {
+  const project = await Project.findById(id);
+  if (!project) throw new NotFoundError("Project not found");
+
+  project.summary = summary;
+  project.curatedAt = new Date();
+  await project.save();
+
+  return project;
+}

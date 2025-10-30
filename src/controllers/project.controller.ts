@@ -4,6 +4,7 @@ import {
   getProjectByIdService,
   publishUpdatedProjectService,
   recurateProjectService,
+  updateProjectSummaryService,
 } from "@/services/project.service";
 
 /**
@@ -54,6 +55,10 @@ export const recurateProject = async (req: Request, res: Response) => {
   });
 };
 
+/**
+ * @desc Publish updated project
+ * @route POST /api/projects/:id/publish
+ */
 export const publishUpdatedProject = async (req: Request, res: Response) => {
   const { id } = req.params;
   const commit = await publishUpdatedProjectService(id);
@@ -62,4 +67,20 @@ export const publishUpdatedProject = async (req: Request, res: Response) => {
     message: "Project successfully published",
     data: commit,
   });
+};
+
+/**
+ * @desc Manually update specific project summary
+ * @route PUT /api/projects/:id
+ */
+export const updateProjectSummary = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { summary } = req.body;
+
+  if (!summary || typeof summary !== "string") {
+    return res.status(400).json({ error: "Summary is required and must be a string" });
+  }
+
+  const updatedProject = await updateProjectSummaryService(id, summary);
+  res.status(200).json(updatedProject);
 };
