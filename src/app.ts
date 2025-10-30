@@ -5,6 +5,7 @@ import "dotenv/config";
 import { connectDB } from "@/config/db";
 import { errorHandler } from "@/middleware/errorHandler";
 import { scheduleWeeklySync } from "./jobs/weeklySyncJob";
+import authRoutes from "@/routes/auth.routes";
 import projectRoutes from "@/routes/project.routes";
 import githubRoutes from "@/routes/github.routes";
 import syncRoutes from "@/routes/sync.routes";
@@ -39,6 +40,7 @@ app.use(
   })
 );
 
+app.use("/api/auth", authRoutes);
 app.use("/api/projects", projectRoutes);
 app.use("/api/github", githubRoutes);
 app.use("/api", syncRoutes);
