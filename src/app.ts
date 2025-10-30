@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import "dotenv/config";
 
 import { connectDB } from "@/config/db";
@@ -10,6 +11,25 @@ import syncRoutes from "@/routes/sync.routes";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+const allowedOrigins = (process.env.ALLOWED_ORIGINS || "").split(",");
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin) {
+        return callback(null, true);
+      }
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      } else {
+        return callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+  })
+);
 
 app.use(
   express.json({
