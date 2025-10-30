@@ -1,5 +1,9 @@
 import { Request, Response } from "express";
-import { getAllProjectsService, getProjectByIdService } from "@/services/project.service";
+import {
+  getAllProjectsService,
+  getProjectByIdService,
+  recurateProjectService,
+} from "@/services/project.service";
 
 /**
  * @desc Get all projects (with optional pagination)
@@ -32,4 +36,19 @@ export const getProjectById = async (req: Request, res: Response) => {
   const { id } = req.params;
   const project = await getProjectByIdService(id);
   res.status(200).json(project);
+};
+
+/**
+ * @desc Recurate specific project summary
+ * @route POST /api/projects/:id/recurate
+ */
+export const recurateProject = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  const project = await recurateProjectService(id);
+
+  res.status(200).json({
+    message: "Project successfully re-curated",
+    data: project,
+  });
 };
