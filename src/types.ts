@@ -38,3 +38,8 @@ export interface PaginatedResponse {
     hasNextPage: boolean;
   };
 }
+
+export interface ProjectsFileData {
+  projects: IProject[];
+  generatedAt: string;
+}

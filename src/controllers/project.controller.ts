@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import {
   getAllProjectsService,
   getProjectByIdService,
+  publishUpdatedProjectService,
   recurateProjectService,
 } from "@/services/project.service";
 
@@ -50,5 +51,15 @@ export const recurateProject = async (req: Request, res: Response) => {
   res.status(200).json({
     message: "Project successfully re-curated",
     data: project,
+  });
+};
+
+export const publishUpdatedProject = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const commit = await publishUpdatedProjectService(id);
+
+  res.status(200).json({
+    message: "Project successfully published",
+    data: commit,
   });
 };
