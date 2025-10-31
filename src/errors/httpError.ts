@@ -10,6 +10,14 @@ export class BadRequestError extends Error implements HttpError {
   }
 }
 
+export class UnauthorizedError extends Error implements HttpError {
+  httpStatus = 401;
+  constructor(message = "Unauthorized") {
+    super(message);
+    this.name = "UnauthorizedError";
+  }
+}
+
 export class NotFoundError extends Error implements HttpError {
   httpStatus = 404;
   constructor(message = "Not Found") {
