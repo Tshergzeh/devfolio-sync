@@ -1,4 +1,6 @@
+import { BadRequestError, UnauthorizedError } from "@/errors/httpError";
 import { userService } from "@/services/user.service";
+import { AuthRequest } from "@/types";
 import { Request, Response } from "express";
 
 export const authController = {
@@ -24,5 +26,18 @@ export const authController = {
 
     const { token, user } = await userService.login(email, password);
     return res.status(200).json({ token, user });
+  },
+
+  async changePassword(req: AuthRequest, res: Response) {
+    const { currentPassword, newPassword } = req.body;
+    if (!currentPassword || !newPassword)
+      throw new BadRequestError("Both current and new passwords are required");
+
+    const userId = req.user?.userId;
+    if (!userId) throw new UnauthorizedError("Unauthorized");
+
+    await userService.changePassword(userId, currentPassword, newPassword);
+
+    return res.status(200).json({ message: "Password changed successfully" });
   },
 };

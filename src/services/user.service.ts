@@ -1,7 +1,12 @@
 import jwt from "jsonwebtoken";
 import "dotenv/config";
 
-import { ConflictError, UnauthorizedError } from "@/errors/httpError";
+import {
+  BadRequestError,
+  ConflictError,
+  NotFoundError,
+  UnauthorizedError,
+} from "@/errors/httpError";
 import { User } from "@/models/user.model";
 import { IUser } from "@/types";
 
@@ -37,5 +42,18 @@ export const userService = {
         email: user.email,
       },
     };
+  },
+
+  async changePassword(userId: string, currentPassword: string, newPassword: string) {
+    const user = await User.findById(userId);
+    if (!user) throw new NotFoundError("User not found");
+
+    const isMatch = await user.comparePassword(currentPassword);
+    if (!isMatch) throw new BadRequestError("Incorrect current password");
+
+    user.password = newPassword;
+    await user.save();
+
+    return user;
   },
 };

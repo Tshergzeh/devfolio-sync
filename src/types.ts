@@ -1,3 +1,4 @@
+import { Request } from "express";
 import { Document } from "mongoose";
 
 export interface IProject extends Document {
@@ -49,4 +50,11 @@ export interface IUser extends Document {
   email: string;
   password: string;
   comparePassword(candidatePassword: string): Promise<boolean>;
+}
+
+export interface AuthRequest extends Request {
+  user?: {
+    userId: string;
+    email: string;
+  };
 }
