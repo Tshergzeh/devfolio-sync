@@ -40,4 +40,14 @@ export const authController = {
 
     return res.status(200).json({ message: "Password changed successfully" });
   },
+
+  async deleteUser(req: AuthRequest, res: Response) {
+    const targetUserId = req.params.id;
+    const requesterId = req.user?.userId;
+
+    if (!requesterId) throw new UnauthorizedError("Unauthorized");
+
+    const result = await userService.deleteUser(requesterId, targetUserId);
+    return res.status(200).json(result);
+  },
 };

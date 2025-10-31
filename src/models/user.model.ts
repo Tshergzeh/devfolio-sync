@@ -21,6 +21,19 @@ const UserSchema = new Schema<IUser>(
       required: true,
       minlength: 12,
     },
+    role: {
+      type: String,
+      enum: ["admin", "editor"],
+      default: "editor",
+    },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
+    deletedAt: {
+      type: Date,
+      default: null,
+    },
   },
   { timestamps: true }
 );

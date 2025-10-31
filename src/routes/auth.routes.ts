@@ -7,5 +7,6 @@ const router = Router();
 router.post("/register", authController.register);
 router.post("/login", authController.login);
 router.put("/change-password", authenticate, authController.changePassword);
+router.delete("/:id", authenticate, authController.deleteUser);
 
 export default router;

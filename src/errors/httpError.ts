@@ -18,6 +18,14 @@ export class UnauthorizedError extends Error implements HttpError {
   }
 }
 
+export class ForbiddenError extends Error implements HttpError {
+  httpStatus = 403;
+  constructor(message = "Forbidden") {
+    super(message);
+    this.name = "ForbiddenError";
+  }
+}
+
 export class NotFoundError extends Error implements HttpError {
   httpStatus = 404;
   constructor(message = "Not Found") {

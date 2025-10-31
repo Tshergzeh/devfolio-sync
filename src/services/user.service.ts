@@ -4,6 +4,7 @@ import "dotenv/config";
 import {
   BadRequestError,
   ConflictError,
+  ForbiddenError,
   NotFoundError,
   UnauthorizedError,
 } from "@/errors/httpError";
@@ -55,5 +56,25 @@ export const userService = {
     await user.save();
 
     return user;
+  },
+
+  async deleteUser(requesterId: string, targetUserId: string) {
+    const requester = await User.findById(requesterId);
+    const targetUser = await User.findById(targetUserId);
+
+    if (!requester) throw new NotFoundError("Requester not found");
+    if (!targetUser) throw new NotFoundError("User not found");
+
+    if (requester.role !== "admin" && requesterId !== targetUserId)
+      throw new ForbiddenError("Forbidden: insufficient permissions");
+
+    if (targetUser.role === "admin" && requester.role === "admin")
+      throw new ForbiddenError("Forbidden: cannot delete an admin account");
+
+    targetUser.isDeleted = true;
+    targetUser.deletedAt = new Date();
+    await targetUser.save();
+
+    return { message: "User marked as deleted" };
   },
 };
