@@ -16,7 +16,7 @@ const JWT_EXPIRES_IN = "7d";
 
 export const userService = {
   async getAllUsers(): Promise<IUser[]> {
-    return User.find({ isDeleted: false }).select("-password");
+    return User.find().select("-password");
   },
 
   async createUser(data: { name: string; email: string; password: string }): Promise<IUser> {
