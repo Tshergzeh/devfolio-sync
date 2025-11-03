@@ -15,6 +15,10 @@ const JWT_SECRET = process.env.JWT_SECRET!;
 const JWT_EXPIRES_IN = "7d";
 
 export const userService = {
+  async getAllUsers(): Promise<IUser[]> {
+    return User.find({ isDeleted: false }).select("-password");
+  },
+
   async createUser(data: { name: string; email: string; password: string }): Promise<IUser> {
     const existingUser = await User.findOne({ email: data.email });
     if (existingUser) throw new ConflictError("Email already registered");
@@ -31,7 +35,7 @@ export const userService = {
     const isMatch = await user.comparePassword(password);
     if (!isMatch) throw new UnauthorizedError("Invalid credentials");
 
-    const token = jwt.sign({ userId: user._id, email: user.email }, JWT_SECRET, {
+    const token = jwt.sign({ userId: user._id, email: user.email, role: user.role }, JWT_SECRET, {
       expiresIn: JWT_EXPIRES_IN,
     });
 
@@ -41,6 +45,7 @@ export const userService = {
         id: user._id,
         name: user.name,
         email: user.email,
+        role: user.role,
       },
     };
   },
