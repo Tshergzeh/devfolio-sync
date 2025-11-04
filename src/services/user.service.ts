@@ -16,10 +16,15 @@ const JWT_EXPIRES_IN = "7d";
 
 export const userService = {
   async getAllUsers(): Promise<IUser[]> {
-    return User.find().select("-password");
+    return User.find({ isDeleted: false }).select("-password");
   },
 
-  async createUser(data: { name: string; email: string; password: string }): Promise<IUser> {
+  async createUser(data: {
+    name: string;
+    email: string;
+    password: string;
+    role: string;
+  }): Promise<IUser> {
     const existingUser = await User.findOne({ email: data.email });
     if (existingUser) throw new ConflictError("Email already registered");
 
