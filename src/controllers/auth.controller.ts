@@ -42,6 +42,17 @@ export const authController = {
     return res.status(200).json({ message: "Password changed successfully" });
   },
 
+  async updateFirstLoginPassword(req: AuthRequest, res: Response) {
+    const { newPassword } = req.body;
+    if (!newPassword) throw new BadRequestError("New password required");
+
+    const userId = req.user?.userId;
+    if (!userId) throw new UnauthorizedError("Unauthorized");
+
+    const result = await userService.updateFirstLoginPassword(userId, newPassword);
+    res.status(200).json({ success: true, ...result });
+  },
+
   async deleteUser(req: AuthRequest, res: Response) {
     const targetUserId = req.params.id;
     const requesterId = req.user?.userId;

@@ -51,6 +51,7 @@ export const userService = {
         name: user.name,
         email: user.email,
         role: user.role,
+        isFirstLogin: user.isFirstLogin,
       },
     };
   },
@@ -66,6 +67,19 @@ export const userService = {
     await user.save();
 
     return user;
+  },
+
+  async updateFirstLoginPassword(userId: string, newPassword: string) {
+    const user = await User.findById(userId);
+    if (!user) throw new NotFoundError("User not found");
+    if (user.isDeleted) throw new BadRequestError("User is deleted");
+    if (!user.isFirstLogin) throw new BadRequestError("Password already changed");
+
+    user.password = newPassword;
+    user.isFirstLogin = false;
+    await user.save();
+
+    return { message: "Password updated successfully" };
   },
 
   async deleteUser(requesterId: string, targetUserId: string) {

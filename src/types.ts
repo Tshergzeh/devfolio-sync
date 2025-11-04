@@ -52,6 +52,7 @@ export interface IUser extends Document {
   role: "admin" | "editor";
   isDeleted: boolean;
   deletedAt?: Date;
+  isFirstLogin: boolean;
   comparePassword(candidatePassword: string): Promise<boolean>;
 }
 
