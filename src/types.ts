@@ -1,3 +1,4 @@
+import { Request } from "express";
 import { Document } from "mongoose";
 
 export interface IProject extends Document {
@@ -36,5 +37,29 @@ export interface PaginatedResponse {
     page: number;
     pages: number;
     hasNextPage: boolean;
+  };
+}
+
+export interface ProjectsFileData {
+  projects: IProject[];
+  generatedAt: string;
+}
+
+export interface IUser extends Document {
+  name: string;
+  email: string;
+  password: string;
+  role: "admin" | "editor";
+  isDeleted: boolean;
+  deletedAt?: Date;
+  isFirstLogin: boolean;
+  comparePassword(candidatePassword: string): Promise<boolean>;
+}
+
+export interface AuthRequest extends Request {
+  user?: {
+    userId: string;
+    email: string;
+    role: string;
   };
 }

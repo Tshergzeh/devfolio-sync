@@ -3,7 +3,6 @@ import axios from "axios";
 import { Project } from "@/models/project.model";
 import { requestWithAuth } from "@/config/octokit";
 import { GithubRepo } from "@/types";
-import { InternalServerError } from "@/errors/httpError";
 
 export async function fetchPortfolioRepos(username: string, manualSync: boolean) {
   const allRepos: GithubRepo[] = [];
@@ -69,7 +68,7 @@ async function fetchRepoLanguages(username: string, repo: string) {
   return Object.keys(data);
 }
 
-async function fetchRepoReadme(username: string, repo: string) {
+export async function fetchRepoReadme(username: string, repo: string) {
   try {
     const { data } = await requestWithAuth(`GET /repos/${username}/${repo}/readme`);
     let readmeText = Buffer.from(data.content, "base64").toString("utf-8");
@@ -89,7 +88,7 @@ async function fetchRepoReadme(username: string, repo: string) {
   }
 }
 
-async function summarizeReadme(readme_text: string) {
+export async function summarizeReadme(readme_text: string) {
   const response = await axios.post(`${process.env.SUMMARIZER_ENDPOINT}`, {
     readme_text,
   });
