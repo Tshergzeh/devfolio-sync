@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    /* Core settings */
     "target": "ES2020",
     "module": "esnext",
     "rootDir": "./src",
@@ -11,16 +10,13 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
 
-    /* Development ergonomics */
     "noImplicitAny": false,
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
 
-    /* For Node.js projects */
     "moduleResolution": "bundler",
     "types": ["node", "jest"],
 
-    /* Path aliases */
     "baseUrl": "./src",
     "paths": {
       "@/*": ["*"]
