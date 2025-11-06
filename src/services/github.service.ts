@@ -1,6 +1,7 @@
 import "dotenv/config";
 import { updateProjectsFile } from "@/scripts/syncPortfolioData";
 import { generateProjectsJson } from "@/scripts/generateProjectsJson";
+import { fetchWithLogging } from "@/utils/fetchWithLogging";
 
 async function retry(fn, retries = 3, delay = 2000) {
   for (let i = 0; i < retries; i++) {
@@ -24,7 +25,7 @@ export async function webhookService(event: string, ref: string) {
   try {
     console.log("Triggering manual sync via /api/manual-sync");
     const syncResponse = await retry(() =>
-      fetch(`${process.env.API_BASE_URL}/api/manual-sync`, {
+      fetchWithLogging(`${process.env.API_BASE_URL}/api/manual-sync`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
