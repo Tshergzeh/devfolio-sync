@@ -3,6 +3,7 @@ import "dotenv/config";
 
 import { generateProjectsJson } from "@/scripts/generateProjectsJson";
 import { updateProjectsFile } from "@/scripts/syncPortfolioData";
+import { fetchWithLogging } from "@/utils/fetchWithLogging";
 
 const connection = { url: process.env.REDIS_URL };
 
@@ -37,7 +38,7 @@ export const syncWorker = new Worker(
 
 async function manualSync() {
   console.log("Triggering manual sync via /api/manual-sync...");
-  const response = await fetch(`${process.env.API_BASE_URL}/api/manual-sync`, {
+  const response = await fetchWithLogging(`${process.env.API_BASE_URL}/api/manual-sync`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

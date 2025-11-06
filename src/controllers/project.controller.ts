@@ -6,6 +6,7 @@ import {
   recurateProjectService,
   updateProjectSummaryService,
 } from "@/services/project.service";
+import { logger } from "@/utils/logger";
 
 /**
  * @desc Get all projects (with optional pagination)
@@ -13,11 +14,21 @@ import {
  */
 
 export const getAllProjects = async (req: Request, res: Response) => {
+  const start = Date.now();
+  logger.info("Starting fetch", { url: req.originalUrl, method: req.method });
+
   const page = parseInt(req.query.page as string) || 1;
   const limit = parseInt(req.query.limit as string) || 10;
   const skip = (page - 1) * limit;
 
   const { projects, total } = await getAllProjectsService(skip, limit);
+
+  const duration = Date.now() - start;
+  logger.info("Fetch completed", {
+    url: req.originalUrl,
+    status: "success",
+    durationMs: duration,
+  });
 
   res.status(200).json({
     data: projects,
@@ -35,8 +46,19 @@ export const getAllProjects = async (req: Request, res: Response) => {
  * @route GET /api/projects/:id
  */
 export const getProjectById = async (req: Request, res: Response) => {
+  const start = Date.now();
+  logger.info("Starting fetch", { url: req.originalUrl, method: req.method });
+
   const { id } = req.params;
   const project = await getProjectByIdService(id);
+
+  const duration = Date.now() - start;
+  logger.info("Fetch completed", {
+    url: req.originalUrl,
+    status: "success",
+    durationMs: duration,
+  });
+
   res.status(200).json(project);
 };
 
@@ -45,9 +67,19 @@ export const getProjectById = async (req: Request, res: Response) => {
  * @route POST /api/projects/:id/recurate
  */
 export const recurateProject = async (req: Request, res: Response) => {
+  const start = Date.now();
+  logger.info("Starting fetch", { url: req.originalUrl, method: req.method });
+
   const { id } = req.params;
 
   const project = await recurateProjectService(id);
+
+  const duration = Date.now() - start;
+  logger.info("Fetch completed", {
+    url: req.originalUrl,
+    status: "success",
+    durationMs: duration,
+  });
 
   res.status(200).json({
     message: "Project successfully re-curated",
@@ -60,8 +92,18 @@ export const recurateProject = async (req: Request, res: Response) => {
  * @route POST /api/projects/:id/publish
  */
 export const publishUpdatedProject = async (req: Request, res: Response) => {
+  const start = Date.now();
+  logger.info("Starting fetch", { url: req.originalUrl, method: req.method });
+
   const { id } = req.params;
   const commit = await publishUpdatedProjectService(id);
+
+  const duration = Date.now() - start;
+  logger.info("Fetch completed", {
+    url: req.originalUrl,
+    status: "success",
+    durationMs: duration,
+  });
 
   res.status(200).json({
     message: "Project successfully published",
@@ -74,6 +116,9 @@ export const publishUpdatedProject = async (req: Request, res: Response) => {
  * @route PUT /api/projects/:id
  */
 export const updateProjectSummary = async (req: Request, res: Response) => {
+  const start = Date.now();
+  logger.info("Starting fetch", { url: req.originalUrl, method: req.method });
+
   const { id } = req.params;
   const { summary } = req.body;
 
@@ -82,5 +127,13 @@ export const updateProjectSummary = async (req: Request, res: Response) => {
   }
 
   const updatedProject = await updateProjectSummaryService(id, summary);
+
+  const duration = Date.now() - start;
+  logger.info("Fetch completed", {
+    url: req.originalUrl,
+    status: "success",
+    durationMs: duration,
+  });
+
   res.status(200).json(updatedProject);
 };
