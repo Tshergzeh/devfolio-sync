@@ -93,9 +93,12 @@ export async function summarizeReadme(readme_text: string) {
   const start = Date.now();
   logger.info("Summarization started", { length: readme_text.length });
 
-  const response = await axios.post(`${process.env.SUMMARIZER_ENDPOINT}`, {
-    readme_text,
-  });
+  const response = await axios.post(
+    `${process.env.SUMMARIZER_BASE_URL}/${process.env.SUMMARIZER_ENDPOINT}`,
+    {
+      readme_text,
+    }
+  );
 
   const duration = Date.now() - start;
   logger.info("Summarization completed", { durationMs: duration });
