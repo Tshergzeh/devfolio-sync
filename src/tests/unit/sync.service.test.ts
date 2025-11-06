@@ -1,4 +1,4 @@
-import { manualSyncService } from "@/services/sync.services";
+import { manualSyncService } from "@/services/sync.service";
 import { fetchPortfolioRepos } from "@/services/githubFetcher";
 import { BadRequestError } from "@/errors/httpError";
 
