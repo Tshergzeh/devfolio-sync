@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { manualSyncService } from "@/services/sync.services";
+import { manualSyncService } from "@/services/sync.service";
 import { BadRequestError } from "@/errors/httpError";
 
 export const manualSync = async (req: Request, res: Response) => {
