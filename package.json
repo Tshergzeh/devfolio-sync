@@ -34,7 +34,8 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.19.2",
     "node-cron": "^4.2.1",
-    "octokit": "^5.0.4"
+    "octokit": "^5.0.4",
+    "winston": "^3.18.3"
   },
   "devDependencies": {
     "@types/express": "^5.0.4",
