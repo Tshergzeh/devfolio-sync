@@ -5,8 +5,8 @@ import {
   publishUpdatedProjectService,
   recurateProjectService,
   updateProjectSummaryService,
-} from "@/services/project.service";
-import { logger } from "@/utils/logger";
+} from "@/services/project.service.js";
+import { logger } from "@/utils/logger.js";
 
 /**
  * @desc Get all projects (with optional pagination)

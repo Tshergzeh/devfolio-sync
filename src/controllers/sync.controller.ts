@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { manualSyncService } from "@/services/sync.service";
-import { BadRequestError } from "@/errors/httpError";
-import { logger } from "@/utils/logger";
+import { manualSyncService } from "@/services/sync.service.js";
+import { BadRequestError } from "@/errors/httpError.js";
+import { logger } from "@/utils/logger.js";
 
 export const manualSync = async (req: Request, res: Response) => {
   const start = Date.now();

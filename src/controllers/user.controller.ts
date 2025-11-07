@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { userService } from "@/services/user.service";
-import { logger } from "@/utils/logger";
+import { userService } from "@/services/user.service.js";
+import { logger } from "@/utils/logger.js";
 
 export const userController = {
   async getAllUsers(req: Request, res: Response) {

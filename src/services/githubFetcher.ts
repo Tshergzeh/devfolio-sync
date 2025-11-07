@@ -1,9 +1,9 @@
 import axios from "axios";
 
-import { Project } from "@/models/project.model";
-import { requestWithAuth } from "@/config/octokit";
+import { Project } from "@/models/project.model.js";
+import { requestWithAuth } from "@/config/octokit.js";
 import { GithubRepo } from "@/types";
-import { logger } from "@/utils/logger";
+import { logger } from "@/utils/logger.js";
 
 export async function fetchPortfolioRepos(username: string, manualSync: boolean) {
   const allRepos: GithubRepo[] = [];

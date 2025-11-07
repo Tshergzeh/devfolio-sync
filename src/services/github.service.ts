@@ -1,7 +1,7 @@
 import "dotenv/config";
-import { updateProjectsFile } from "@/scripts/syncPortfolioData";
-import { generateProjectsJson } from "@/scripts/generateProjectsJson";
-import { fetchWithLogging } from "@/utils/fetchWithLogging";
+import { updateProjectsFile } from "@/scripts/syncPortfolioData.js";
+import { generateProjectsJson } from "@/scripts/generateProjectsJson.js";
+import { fetchWithLogging } from "@/utils/fetchWithLogging.js";
 
 async function retry(fn, retries = 3, delay = 2000) {
   for (let i = 0; i < retries; i++) {
