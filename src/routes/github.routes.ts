@@ -1,6 +1,6 @@
 import express from "express";
-import { verifySignature } from "@/middleware/verifySignature";
-import { webhook } from "@/controllers/github.controller";
+import { verifySignature } from "@/middleware/verifySignature.js";
+import { webhook } from "@/controllers/github.controller.js";
 
 const router = express.Router();
 
