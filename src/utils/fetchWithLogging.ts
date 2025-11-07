@@ -1,4 +1,4 @@
-import { logger } from "@/utils/logger";
+import { logger } from "@/utils/logger.js";
 
 export async function fetchWithLogging(url: string, options?: RequestInit) {
   const start = Date.now();
