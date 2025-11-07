@@ -1,5 +1,5 @@
-import { BadRequestError } from "@/errors/httpError";
-import { fetchPortfolioRepos } from "./githubFetcher";
+import { BadRequestError } from "@/errors/httpError.js";
+import { fetchPortfolioRepos } from "@/services/githubFetcher.js";
 
 export async function manualSyncService(username: string) {
   if (!username) throw new BadRequestError("Username is required");

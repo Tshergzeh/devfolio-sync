@@ -1,7 +1,7 @@
-import { BadRequestError, UnauthorizedError } from "@/errors/httpError";
-import { userService } from "@/services/user.service";
+import { BadRequestError, UnauthorizedError } from "@/errors/httpError.js";
+import { userService } from "@/services/user.service.js";
 import { AuthRequest } from "@/types";
-import { logger } from "@/utils/logger";
+import { logger } from "@/utils/logger.js";
 import { Request, Response } from "express";
 
 export const authController = {

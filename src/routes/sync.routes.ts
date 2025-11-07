@@ -1,5 +1,5 @@
 import express from "express";
-import { manualSync } from "@/controllers/sync.controller";
+import { manualSync } from "@/controllers/sync.controller.js";
 
 const router = express.Router();
 

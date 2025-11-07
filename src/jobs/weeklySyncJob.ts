@@ -1,9 +1,9 @@
 import { Queue, Worker } from "bullmq";
 import "dotenv/config";
 
-import { generateProjectsJson } from "@/scripts/generateProjectsJson";
-import { updateProjectsFile } from "@/scripts/syncPortfolioData";
-import { fetchWithLogging } from "@/utils/fetchWithLogging";
+import { generateProjectsJson } from "@/scripts/generateProjectsJson.js";
+import { updateProjectsFile } from "@/scripts/syncPortfolioData.js";
+import { fetchWithLogging } from "@/utils/fetchWithLogging.js";
 
 const connection = { url: process.env.REDIS_URL };
 

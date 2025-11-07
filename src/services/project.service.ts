@@ -1,9 +1,9 @@
 import "dotenv/config";
 
-import { Project } from "@/models/project.model";
-import { NotFoundError } from "@/errors/httpError";
-import { fetchRepoReadme, summarizeReadme } from "./githubFetcher";
-import { requestWithAuth } from "@/config/octokit";
+import { Project } from "@/models/project.model.js";
+import { NotFoundError } from "@/errors/httpError.js";
+import { fetchRepoReadme, summarizeReadme } from "@/services/githubFetcher.js";
+import { requestWithAuth } from "@/config/octokit.js";
 import { IProject, ProjectsFileData } from "@/types";
 
 export async function getAllProjectsService(skip: number, limit: number) {

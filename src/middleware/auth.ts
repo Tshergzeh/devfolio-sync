@@ -1,4 +1,4 @@
-import { UnauthorizedError } from "@/errors/httpError";
+import { UnauthorizedError } from "@/errors/httpError.js";
 import { AuthRequest } from "@/types";
 import { Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";

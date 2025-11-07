@@ -2,14 +2,14 @@ import express from "express";
 import cors from "cors";
 import "dotenv/config";
 
-import { connectDB } from "@/config/db";
-import { errorHandler } from "@/middleware/errorHandler";
-import { scheduleWeeklySync } from "./jobs/weeklySyncJob";
-import authRoutes from "@/routes/auth.routes";
-import userRoutes from "@/routes/user.routes";
-import projectRoutes from "@/routes/project.routes";
-import githubRoutes from "@/routes/github.routes";
-import syncRoutes from "@/routes/sync.routes";
+import { connectDB } from "@/config/db.js";
+import { errorHandler } from "@/middleware/errorHandler.js";
+import { scheduleWeeklySync } from "./jobs/weeklySyncJob.js";
+import authRoutes from "@/routes/auth.routes.js";
+import userRoutes from "@/routes/user.routes.js";
+import projectRoutes from "@/routes/project.routes.js";
+import githubRoutes from "@/routes/github.routes.js";
+import syncRoutes from "@/routes/sync.routes.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;

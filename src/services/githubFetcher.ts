@@ -1,9 +1,9 @@
 import axios from "axios";
 
-import { Project } from "@/models/project.model";
-import { requestWithAuth } from "@/config/octokit";
+import { Project } from "@/models/project.model.js";
+import { requestWithAuth } from "@/config/octokit.js";
 import { GithubRepo } from "@/types";
-import { logger } from "@/utils/logger";
+import { logger } from "@/utils/logger.js";
 
 export async function fetchPortfolioRepos(username: string, manualSync: boolean) {
   const allRepos: GithubRepo[] = [];
@@ -93,9 +93,12 @@ export async function summarizeReadme(readme_text: string) {
   const start = Date.now();
   logger.info("Summarization started", { length: readme_text.length });
 
-  const response = await axios.post(`${process.env.SUMMARIZER_ENDPOINT}`, {
-    readme_text,
-  });
+  const response = await axios.post(
+    `${process.env.SUMMARIZER_BASE_URL}/${process.env.SUMMARIZER_ENDPOINT}`,
+    {
+      readme_text,
+    }
+  );
 
   const duration = Date.now() - start;
   logger.info("Summarization completed", { durationMs: duration });

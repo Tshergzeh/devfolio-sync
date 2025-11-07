@@ -1,5 +1,5 @@
-import { webhookService } from "@/services/github.service";
-import { logger } from "@/utils/logger";
+import { webhookService } from "@/services/github.service.js";
+import { logger } from "@/utils/logger.js";
 import { Request, Response } from "express";
 
 export const webhook = async (req: Request, res: Response) => {

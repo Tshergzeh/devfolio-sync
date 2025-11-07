@@ -7,8 +7,8 @@ import {
   ForbiddenError,
   NotFoundError,
   UnauthorizedError,
-} from "@/errors/httpError";
-import { User } from "@/models/user.model";
+} from "@/errors/httpError.js";
+import { User } from "@/models/user.model.js";
 import { IUser } from "@/types";
 
 const JWT_SECRET = process.env.JWT_SECRET!;
