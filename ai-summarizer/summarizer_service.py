@@ -34,7 +34,7 @@ async def summarize_repo(payload: RepoSummaryRequest):
         try:
             readme_snippet = payload.readme_text[:2000]
 
-            summary = client.summarization(readme_snippet, model="facebook/bart-large-cnn")
+            summary = client.summarization(readme_snippet, model="sshleifer/distilbart-cnn-12-6")
             return { "data": summary.summary_text }
         
         except Exception as e:
