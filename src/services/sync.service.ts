@@ -1,6 +1,6 @@
 import { BadRequestError } from "@/errors/httpError.js";
-import { generateProjectsJson } from "@/scripts/generateProjectsJson";
-import { updateProjectsFile } from "@/scripts/syncPortfolioData";
+import { generateProjectsJson } from "@/scripts/generateProjectsJson.js";
+import { updateProjectsFile } from "@/scripts/syncPortfolioData.js";
 import { fetchPortfolioRepos } from "@/services/githubFetcher.js";
 
 export async function manualSyncService(username: string) {
